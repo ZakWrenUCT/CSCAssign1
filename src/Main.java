@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Main{
 
     public static void main(String[] args) {
@@ -17,12 +19,12 @@ public class Main{
         //must try different # of threads
         //use System.nanoTime() or System.currentTImeMillis() to measure
         //System.gc() after timing block
-        float[] array = {1,5,10,1,0};
+        float[] array = {1,5,10,2,3,2};
         int low = 0;
         int high = array.length;
         int size = 3;
         ProcessArray cm = new ProcessArray(array, low, high, size);
-        cm.compute();
+        System.out.print(Arrays.toString(cm.compute()));
         //System.out.println("a");
         //compare run times of parallel to serial
         //System.out.println(5/2);
