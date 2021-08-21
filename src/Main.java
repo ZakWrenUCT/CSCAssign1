@@ -17,10 +17,11 @@ public class Main{
         //must try different # of threads
         //use System.nanoTime() or System.currentTImeMillis() to measure
         //System.gc() after timing block
-        int[] array = {1,5,10,1,0};
+        float[] array = {1,5,10,1,0};
         int low = 0;
         int high = array.length;
-        ComputeMedian cm = new ComputeMedian(array, low, high);
+        int size = 3;
+        ProcessArray cm = new ProcessArray(array, low, high, size);
         cm.compute();
         //System.out.println("a");
         //compare run times of parallel to serial
