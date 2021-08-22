@@ -23,8 +23,11 @@ class ProcessArray extends RecursiveTask<float[]> {
     out = Arrays.copyOfRange(arr, lo, hi);
     float[] subset;
     if ((hi - lo) <= SEQUENTIAL_CUTOFF) {
-      for (int i = lo; i < hi; i++) //logic here
-      if (i <= (si / 2) - 1 || i >= arr.length - ((si / 2))) {
+      for (
+        int i = lo;
+        i < hi;
+        i++
+      ) if (i <= (si / 2) - 1 || i >= arr.length - ((si / 2))) { //logic here
         out[i - lo] = arr[i];
       } else {
         subset = Arrays.copyOfRange(arr, i - si / 2, i + (si / 2) + 1);

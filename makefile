@@ -35,4 +35,4 @@ V2=
 V3=
 run:
 	java -cp ./bin Main ${V1} ${V2} ${V3}
-# make run V1=sampleInput100000.txt V2=5 V3=out.txt 5 out.txt
+# make run V1=sampleInput100000.txt V2=5 V3=out.txt

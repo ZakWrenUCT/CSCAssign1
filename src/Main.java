@@ -31,6 +31,7 @@ public class Main {
 
   public static void main(String[] args) throws FileNotFoundException {
     //take user input
+    System.out.println(Arrays.toString(args));
     String[] theStuff = args;
     String name = theStuff[0];
     File text = new File(name);
@@ -57,14 +58,15 @@ public class Main {
       lineNumber++;
     }
     //Run parallel and sequential algorithm
-    float[] sumArr = {};
+    float[] paraArr = input.clone();
+    float[] seqArr = input.clone();
     float[] paraTimes = new float[20];
     float[] seqTimes = new float[20];
     System.gc();
     //Test parallel algorithm
     for (int i = 0; i < 20; i++) {
       tick();
-      sumArr = sum(input, size);
+      paraArr = sum(input, size);
       float time = tock();
       //System.out.println("Run "+ (i+1) +" of the parallel took " + time + " milliseconds");
       paraTimes[i] = time;
@@ -73,23 +75,24 @@ public class Main {
     //Test sequential algorithm
     for (int i = 0; i < 20; i++) {
       tick();
-      sumArr = sumSeq(input, size);
+      seqArr = sumSeq(input, size);
       float time = tock();
       //System.out.println("Run "+ (i+1) +" of the sequential took " + time + " milliseconds");
       seqTimes[i] = time;
     }
+    System.out.println("Check arrays are equal: " + Arrays.equals(paraArr,seqArr));
     //write results to output file
     try {
       if (outText.createNewFile()) {
         System.out.println("File created: " + outText.getName());
         PrintWriter myWriter = new PrintWriter(outText, StandardCharsets.UTF_8);
-        myWriter.println(sumArr.length);
-        for (int i = 0; i < sumArr.length; i++) {
+        myWriter.println(paraArr.length);
+        for (int i = 0; i < paraArr.length; i++) {
           String outtt =
             i +
             " " +
             Float
-              .toString((float) (Math.round(sumArr[i] * 100000) / 100000d))
+              .toString((float) (Math.round(paraArr[i] * 100000) / 100000d))
               .replaceAll("\\.", ",");
           //System.out.println(outtt);
           myWriter.println(outtt);
@@ -104,6 +107,7 @@ public class Main {
       e.printStackTrace();
     }
     //print out performance of algorithms
+
     System.out.println("SequentialTresh: " + 750);
     System.out.println("   ");
     System.out.println("For parallel: ");
