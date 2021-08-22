@@ -1,7 +1,6 @@
 import static java.lang.Integer.parseInt;
 
 import java.io.*;
-//import java.util.Arrays;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -61,8 +60,6 @@ public class Main {
     }
     //Run parallel and sequential algorithm
     float[] sumArr = {};
-    float fastestPara = 0;
-    float slowPara = 0;
     float[] paraTimes = new float[20];
     float[] seqTimes = new float[20];
     System.gc();
@@ -88,7 +85,6 @@ public class Main {
       if (outText.createNewFile()) {
         System.out.println("File created: " + outText.getName());
         PrintWriter myWriter = new PrintWriter(outText, StandardCharsets.UTF_8);
-        //FileWriter myWriter = new FileWriter("filename.txt");
         myWriter.println(sumArr.length);
         for (int i = 0; i < sumArr.length; i++) {
           String outtt =
