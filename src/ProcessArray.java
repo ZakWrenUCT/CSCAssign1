@@ -1,5 +1,4 @@
 import java.util.Arrays;
-//import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 
@@ -31,7 +30,6 @@ class ProcessArray extends RecursiveTask<float[]> {
         subset = Arrays.copyOfRange(arr, i - si / 2, i + (si / 2) + 1);
         out[i - lo] = findMedian(subset);
       }
-      //System.out.println(Arrays.toString(out));
       return out;
     } else {
       ProcessArray left = new ProcessArray(

@@ -1,7 +1,4 @@
 import java.util.Arrays;
-import java.util.Arrays.*;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveTask;
 
 class ProcessArraySeq {
 
@@ -16,7 +13,6 @@ class ProcessArraySeq {
     lo = l;
     hi = h;
     si = s;
-    //seqThresh=a.length-2;
   }
 
   float[] calculate() {
@@ -31,7 +27,6 @@ class ProcessArraySeq {
         out[i - lo] = findMedian(subset);
       }
     }
-    //System.out.println(Arrays.toString(out));
     return out;
   }
 
