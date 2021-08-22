@@ -19,7 +19,6 @@ class ProcessArray extends RecursiveTask<float[]> {
     }
     protected float[] compute() {
         out = Arrays.copyOfRange(arr, lo, hi);
-        //out = new float[arr.length];
         float[] subset;
         if ((hi - lo) <= SEQUENTIAL_CUTOFF) {
             for (int i = lo; i < hi; i++)
