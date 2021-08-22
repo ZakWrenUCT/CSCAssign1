@@ -31,13 +31,11 @@ public class Main {
 
   public static void main(String[] args) throws FileNotFoundException {
     //take user input
-    Scanner user = new Scanner(System.in);
-    System.out.println("FileName Size OutputName:");
-    String theStuff = user.nextLine();
-    String name = theStuff.split(" ")[0];
+    String[] theStuff = args;
+    String name = theStuff[0];
     File text = new File(name);
-    int size = Integer.parseInt(theStuff.split(" ")[1]);
-    File outText = new File(theStuff.split(" ")[2]);
+    int size = Integer.parseInt(theStuff[1]);
+    File outText = new File(theStuff[2]);
     //sampleInput100000.txt 5 out.txt
 
     Runtime runtime = Runtime.getRuntime();
@@ -93,7 +91,7 @@ public class Main {
             Float
               .toString((float) (Math.round(sumArr[i] * 100000) / 100000d))
               .replaceAll("\\.", ",");
-          System.out.println(outtt);
+          //System.out.println(outtt);
           myWriter.println(outtt);
         }
         myWriter.close();

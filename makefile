@@ -1,27 +1,38 @@
 
-SRC_DIR := src
+.PHONY: bin data doc out
+.SUFFIXES: .java .class
 
-OUT_DIR := out
+PKG =
+BIN = ./bin/
+SRC = ./src/
+FLAG = -g -d $(BIN) -cp $(SRC)
+COMPILE = javac $(FLAG)
+EMPTY =
+data =
+query =
+in =
+SOURCE = $(subst $(SRC), $(EMPTY), $(wildcard $(SRC)*.java)) #replace ./src/ with all pkg/.java files
 
-SRCS := $(wildcard $(SRC_DIR)/*.java)
+ifdef PKG #If PKG is not empty, split the directories and files and make an agregate list of all files
+	PACKAGEDIRS = $(addprefix $(SRC), $(PKG))
+	PACKAGEFILES = $(subst $(SRC),$(EMPTY),$(foreach DIR, $(PACKAGEDIRS), $(wildcard $(DIR)/*.java)))
+	ALL_FILES = $(PACKAGEFILES) $(SOURCE)
+else #If PKG is empty, all files are in the src folder
+	ALL_FILES = $(SOURCE)
+endif
 
-CLS := $(SRCS:$(SRC_DIR)/%.java=$(OUT_DIR)/%.class)
+CLASS_FILES = $(ALL_FILES:.java=.class)
 
-JC := javac
+all: $(addprefix $(BIN),$(CLASS_FILES)) #set class files dir as ./bin/*class
+$(BIN)%.class: $(SRC)%.java
+	$(COMPILE) $<
 
-JCFLAGS := -d $(OUT_DIR)/ -cp $(SRC_DIR)/
+clean :
+	rm -rf $(BIN)*
 
-.SUFFIXES: .java
-
-.PHONY: all clean
-
-all: $(CLS)
-
-$(CLS): $(OUT_DIR)/%.class: $(SRC_DIR)/%.java $(JC) $(JCFLAGS) $<
-
-clean: rm $(OUT_DIR)/*.class
-
-V1 = sampleInput100000.txt
-V2 = 7
-V3 = out.txt
-run: java Main.java ${V1} ${V2} ${V3}
+V1=
+V2=
+V3=
+run:
+	java -cp ./bin Main ${V1} ${V2} ${V3}
+# make run V1=sampleInput100000.txt V2=5 V3=out.txt 5 out.txt
