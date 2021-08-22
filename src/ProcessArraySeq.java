@@ -17,14 +17,14 @@ class ProcessArraySeq {
         float[] subset;
         for (int i = lo; i < hi; i++) {
             //logic here
-            if (i == 0 || i == arr.length - 1) {
+            if (i <= (si/2)-1 || i >= arr.length - ((si/2))) {
                 out[i - lo] = arr[i];
             } else {
                 subset = Arrays.copyOfRange(arr, i - si / 2, i + (si / 2) + 1);
                 out[i - lo] = findMedian(subset);
             }
         }
-        System.out.println(Arrays.toString(out));
+        //System.out.println(Arrays.toString(out));
         return out;
     }
 
