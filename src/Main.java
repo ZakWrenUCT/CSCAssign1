@@ -1,73 +1,64 @@
-//import javax.swing.*;
+
+import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
-//import static java.lang.Integer.valueOf;
-//import static java.lang.Float.*;
 
-public class Main{
+public class Main {
+    static long startTime = 0;
+    private static void tick(){
+        startTime = System.nanoTime();
+    }
+    private static float tock(){
+        return (System.nanoTime() - startTime) / 1000000.0f;
+    }
+    static final ForkJoinPool fjPool = new ForkJoinPool();
 
+    static float[] sum(float[] input,int size){
+        return fjPool.invoke(new ProcessArray(input, 0, input.length, size, 1000));
+    }
+    static float[] sumSeq(float[] input,int size){
+        return new ProcessArraySeq(input, 0, input.length, size).calculate();
+    }
     public static void main(String[] args) throws FileNotFoundException {
-        //must try different # of threads
-        //use System.nanoTime() or System.currentTimeMillis() to measure
-        //System.gc() after timing block
-
-        float[] input = {1,5,10,2,3,2,9,15,1};
-
-        String name = "sampleInput100";
+        System.gc();
+        String name = "sampleInput10000";
         File text = new File(name+".txt");
         Scanner scan = new Scanner(text);
-
-//        int lineNumber = 1;
-//        String line = scan.nextLine();
-//        int high = parseInt(line);
-//
-//        float[] input = new float[high];
-//        while(scan.hasNextLine()){
-//            line = scan.nextLine();
-//            input[lineNumber-1]= Float.parseFloat(line.split(" ")[1].replace(',','.'));
-//            lineNumber++;
-//        }
-
+        int lineNumber = 1;
+        String line = scan.nextLine();
+        int high = parseInt(line);
+        float[] input = new float[high];
+        while(scan.hasNextLine()){
+            line = scan.nextLine();
+            input[lineNumber-1]= Float.parseFloat(line.split(" ")[1].replace(',','.'));
+            lineNumber++;
+        }
         int size = 5;
-        //throw error if size is bigger than array or even
+        //float[] input = {1,5,10,2,3,2,9,15,1};
+        System.gc();
+        for(int i =0; i<20; i++) {
+            tick();
+            float[] sumArr = sum(input, size);
+            float time = tock();
+            System.out.println("Run "+ (i+1) +" of the parallel took " + time + " milliseconds");
+        }
+        System.gc();
 
-        ProcessArray cm = new ProcessArray(input, 0, input.length, size, 12);
-        ProcessArraySeq cmseq = new ProcessArraySeq(input, 0, input.length, size);
+        for(int i =0; i<20; i++) {
+            tick();
+            float[] sumArr = sumSeq(input, size);
+            float time = tock();
+            System.out.println("Run "+ (i+1) +" of the sequential took " + time + " milliseconds");
+        }
 
+        System.out.println(Arrays.equals(sumSeq(input,size),sum(input,size)));
+        //System.out.println(Arrays.toString(sumSeq(input,size)));
+        System.out.println(Arrays.toString(sum(input,size)));
 
-
-//        System.gc();
-//
-//        long seqStart = System.nanoTime();
-//        float[] seq = cm.compute();
-//        long seqEnd = System.nanoTime();
-
-//        System.gc();
-//
-//        long paraStart = System.nanoTime();
-          //float[] parallel = cm.compute();
-//        long paraEnd = System.nanoTime();
-
-/*        long paraStart = System.currentTimeMillis();
-        float[] parallel = cm.compute();
-        long paraEnd = System.currentTimeMillis();
-
-        long seqStart = System.currentTimeMillis();
-        float[] seq = cm.compute();
-        long seqEnd = System.currentTimeMillis();*/
-
-
-//        System.out.println(paraEnd-paraStart);
-//        System.out.println(seqEnd-seqStart);
-
-        //System.out.println(Arrays.toString(cm.compute()));
-        //System.out.println(Arrays.toString(cmseq.calculate()));
-//        System.out.print(Arrays.equals(cm.compute(),cmseq.calculate()));
-        //compare run times of parallel to serial
     }
 
 }
